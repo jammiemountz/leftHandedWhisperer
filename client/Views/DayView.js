@@ -2,23 +2,17 @@ app.dayView = Backbone.View.extend({
 
   model: app.Event,
 
-  defaults: {
-    // day: 1/1/11
-  },
-
-  data: [],
-
-  el: '\
-    <h1>' + this.model.get('shortDate') + '</h1>\
-  ',
+  template: _.template('\
+    <ul class="list-group">\
+      <li class="list-group-item">Name: <%= name %></li>\
+      <li class="list-group-item">Address: <%= address %><p></p><%= city %>, <%= state %>, <%= zip %></li>\
+      <li class="list-group-item">Date: <%= date %></li>\
+      <li class="list-group-item">Venue: <%= venue %></li>\
+      <li class="list-group-item">Description: <%= description %></li>\
+    </ul>\
+  '),
 
   initialize: function() {
-    // this.collection.forEach(function(item) {
-    //   if (item.attributes.date === this.day) {
-    //     this.data.push(item);
-    //   }
-    // });
-    console.log(this.data)
     this.render();
   },
 
@@ -27,28 +21,9 @@ app.dayView = Backbone.View.extend({
   },
 
   render: function(view) {
-    for (var i = 0; i < this.data.length; i++) {
-      var newEvent = new eventView({model: this.data[i]});
-      this.$el.append(newEvent);
-      if (i !== this.data.length - 1) {
-        this.$el.append($('<hr>'));
-      }
-    }
-
+    console.log('data', this.data)
+    this.$el.html(this.template(this.model.attributes));
     return this.$el;
   }
 
 });
-
-
-//When we initialize this, we'll pass a date to it. This is because we don't have a day model,
-//and clicking on calendar days will give us that data.
-//It looks something like: 
-/**
-dayClick: function(date, jsEvent, view) {
-  var today = new app.dayView({day: date});
-  today.render().appendTo($('body'));
-}
-
-We need to make sure we're converting all the dates from native Dates to fullcalendar moments
-*/

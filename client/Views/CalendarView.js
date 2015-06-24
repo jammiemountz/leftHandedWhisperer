@@ -14,19 +14,19 @@ app.calendarView = Backbone.View.extend({
     var that = this;
     this.$el.fullCalendar({
       dayClick: function(date) {
-        var dayModels = that.collection.where({shortDate: date.format()}) 
-        var dayview = new app.dayView({data: dayModels});
-        // dayModels.forEach(function(model){
-        //   var today = new app.dayView({model: model});
-        // })
-        today.render().appendTo($('body')); 
+        $('.dayEventView').empty();
+        var dayModel = that.collection.where({shortDate: date.format()}) 
+        for (var i=0; i<dayModel.length; i++) {
+          var dayview = new app.dayView({model: dayModel[i]});
+          dayview.render().appendTo($('.dayEventView')); 
+        }
       }
     });
     this.collection.forEach(function(item){
       this.$el.fullCalendar('renderEvent', {
         title: item.get('name'),
         start: item.get('date')
-      }, true);
+      }, true); 
     }, this)
   },
 
