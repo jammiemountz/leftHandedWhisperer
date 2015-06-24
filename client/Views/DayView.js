@@ -1,28 +1,29 @@
 app.dayView = Backbone.View.extend({
 
+  model: app.Event,
+
   defaults: {
-    day: 1/1/11;
+    // day: 1/1/11
   },
 
   data: [],
 
   el: '\
-    <h1>' + day.format() + '</h1>\
+    <h1>' + this.model.get('shortDate') + '</h1>\
   ',
 
   initialize: function() {
-
-    this.collection.forEach(function(item) {
-      if (item.attributes.date === this.day) {
-        this.data.push(item);
-      }
-    });
-
+    // this.collection.forEach(function(item) {
+    //   if (item.attributes.date === this.day) {
+    //     this.data.push(item);
+    //   }
+    // });
+    console.log(this.data)
     this.render();
   },
 
   events: {
-    'click ul' : 
+    // 'click ul' : 
   },
 
   render: function(view) {

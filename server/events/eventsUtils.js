@@ -7,6 +7,13 @@ module.exports = {
 
   retrieveAllEvents: function(callback) {
     Events.reset().fetch().then(function(events) {
+      events.forEach(function(event) {
+        var shortDate = event.attributes.date.toISOString().slice(0,10);
+        // console.log(shortDate);
+        // var eventsWithUser = found.attributes;
+        // eventsWithUser.user = found.relations.user;
+        event.set('shortDate',shortDate);
+      })
       callback(null,events);
     })
     .catch(function(error) {
@@ -16,9 +23,11 @@ module.exports = {
   retrieveEvent: function(eventID,callback) {
     new Event({ id: eventID }).fetch({withRelated: ['user'], require: true}).then(function(found) {
       if (found) {
-
+        var shortDate = found.date.slice(0,10);
+        console.log(shortDate);
         // var eventsWithUser = found.attributes;
         // eventsWithUser.user = found.relations.user;
+        found.attributes.shortDate = shortDate;
 
         callback(null,found.attributes);
       } else {
